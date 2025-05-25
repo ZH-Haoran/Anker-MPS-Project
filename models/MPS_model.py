@@ -1,12 +1,11 @@
 from coptpy import *
-import logging
 import datetime
 import os
 
 
 class MPSModel:
     """主生产调度问题模型，按 supply_center 划分子问题"""
-    def __init__(self, env, supply_center, data, params):
+    def __init__(self, env, supply_center, data, params, relax_decision_vars):
         print(f"Solving for supply center: {supply_center}")
         self.model = self._construct_model(env)
         self._set_params_for_solver(params)
@@ -30,7 +29,8 @@ class MPSModel:
         self.available_factory_set_of_skus = data['available_factory_set_of_skus']
         self.po_capacity_occupation_dicts = data['po_capacity_occupation_dicts']
         self.M = data['M']
-        self.logger = logging.getLogger(__name__)
+
+        self.relax_decision_vars = relax_decision_vars
         self.variables = {}
 
 
@@ -84,7 +84,7 @@ class MPSModel:
 
 
     def _set_objective(self):
-        
+        """设置目标函数"""
         obj = quicksum(
             quicksum(self.stock_cost_dict[p_code] * self.variables['inventory_vars'][f"I_{p_code}_{t}"] for t in range(self.plan_duration)) +
             quicksum(self.loss_sales_cost_dict[p_code] * self.variables['stockout_vars'][f"u_{p_code}_{t}"] for t in range(int(self.SLA_S_dict[p_code]), self.plan_duration)) +
@@ -107,7 +107,10 @@ class MPSModel:
                 else:
                     for t in range(self.plan_duration - int(self.SLA_S_dict[p])):
                         var_name = f"x_{f}_{p}_{t}"
-                        self.variables[var_type][var_name] = self.model.addVar(vtype=COPT.INTEGER, name=var_name, lb=0)
+                        if self.relax_decision_vars:
+                            self.variables[var_type][var_name] = self.model.addVar(vtype=COPT.CONTINUOUS, name=var_name, lb=0)
+                        else:
+                            self.variables[var_type][var_name] = self.model.addVar(vtype=COPT.INTEGER, name=var_name, lb=0)
 
 
     def _add_order_indicator_vars(self):
@@ -164,6 +167,7 @@ class MPSModel:
 
 
     def _add_capacity_constraints(self):
+        """添加产能约束"""
         for f in self.factory_set:
             for t in range(self.plan_duration):
                 lhs = 0.0
@@ -180,7 +184,7 @@ class MPSModel:
 
 
     def _add_moq_constraints(self):
-        # MOQ and order indicator constraints (Constraints 2 & 3)
+        """添加最小下单量约束"""
         for f in self.factory_set:
             for p in self.factory_sku_lists_dict[f]:
                 for t in range(self.plan_duration - int(self.SLA_S_dict[p])):
@@ -197,7 +201,7 @@ class MPSModel:
 
 
     def _add_inventory_balance_constraints(self):
-        # Inventory balance constraints (Constraint 4)
+        """添加库存平衡约束"""
         for p in self.sku_set:
             for t in range(self.plan_duration):
                 sum_prod = 0
@@ -233,6 +237,7 @@ class MPSModel:
 
 
     def _add_demand_satisfaction_constraints(self):
+        """添加辅助库存平衡约束（确保每周的可用库存都用于满足需求）"""
         for p in self.sku_set:
             for t in range(self.plan_duration):
                 demand_satisfied_indicator = self.variables['demand_statisfied_indicator_vars'][f"e_{p}_{t}"]
@@ -250,7 +255,7 @@ class MPSModel:
     
 
     def _add_required_inventory_constraints(self):
-        # Required inventory level constraints (Constraint 5)
+        """添加目标库存水平约束"""
         for p in self.sku_set:
             for t in range(int(self.SLA_S_dict[p]), self.plan_duration):
                 sum_prod = 0

@@ -8,6 +8,9 @@ import re
 
 class DataModifier:
     def __init__(self, data_dict, start_week: str, T: int):
+        """
+        初始化DataModifier对象, 设置数据字典、起始周、计划周期等, 执行数据编辑流程。
+        """
         self._data_dict = data_dict
         self._start_week = start_week  # E.g.: "2025W1"
         self._time_span = T
@@ -20,20 +23,32 @@ class DataModifier:
 
 
     def get_modified_data_dict(self):
+        """
+        获取编辑后的数据字典。
+        """
         return self._data_dict
     
 
     def get_plan_start_week(self):
+        """
+        获取计划的起始周。
+        """
         return self._start_week
     
     
     def get_plan_duration(self):
+        """
+        获取计划的周数列表。
+        """
         return self._duration
     
 
     def _save_modified_data_dict(self):
+        """
+        将处理后的数据字典保存为Excel文件到指定目录。
+        """
         data_dict = self._data_dict
-        base_dir = "/Users/anker/MPS_algo/data/modified"
+        base_dir = "./data/modified"
         for supply_center, data in data_dict.items():
             supply_center_dir = os.path.join(base_dir, supply_center)
             if not os.path.exists(supply_center_dir):
@@ -47,7 +62,7 @@ class DataModifier:
 
 
     def _modify_data_dict(self):
-        # 由于 SKU 主数据表中没有 SLA_T 列，临时添加一列全 1 的数据作为运输 SLA
+        # 由于 SKU 主数据表中没有运输 SLA: SLA_T 列，临时添加一列全 1 的数据作为运输 SLA
         self._add_SLA_T_to_sku_main_table()
 
         self._generate_week_capacity_within_duration()
@@ -72,6 +87,9 @@ class DataModifier:
 
 
     def _generate_week_capacity_within_duration(self):
+        """
+        计算每条产线在计划周期内每周的产能, 并生成 WEEK_CAPACITY 表。
+        """
         factory_capacity_df = self._data_dict[TableName.FACTORY_CAPACITY]
         factory_schedule_df = self._data_dict[TableName.FACTORY_PRODUCTION_DAYS]
 
@@ -99,12 +117,13 @@ class DataModifier:
             ], keep=False)
         assert len(duplicate_rows[duplicate_rows != False].index.tolist()) == 0
 
-        # week_capacity_df[WeekCapacity.SP_PL_PAIR] = week_capacity_df[[WeekCapacity.FACTORY, WeekCapacity.PRODUCT_LINE]].apply(tuple, axis=1)
-
         self._data_dict[TableName.WEEK_CAPACITY] = week_capacity_df
 
 
     def _sum_capacities_of_each_factory(self):
+        """
+        汇总每个工厂对每个PN的总产能(跨产线求和), 并更新WEEK_CAPACITY表。
+        """
         week_capacity_df = self._data_dict[TableName.WEEK_CAPACITY]
 
         factory_capacity_df = pd.DataFrame()
@@ -123,6 +142,9 @@ class DataModifier:
 
 
     def _split_data_by_supply_center(self):
+        """
+        按供应中心拆分数据字典中的各个表格。
+        """
         splited_data_dict = {}
 
         # SKU主数据
@@ -161,6 +183,10 @@ class DataModifier:
 
 
     def _filter_valid_skus(self):
+        """
+        筛选有效SKU: 需同时存在于SKU主表、SOP预测表, 并且其PN在产能表中有产能。
+        同时过滤各表中无效SKU和PN的数据。
+        """
         data_dict = self._data_dict
 
         for supply_center, data in data_dict.items():
@@ -197,7 +223,9 @@ class DataModifier:
 
 
     def _fill_MOQ_to_sku_main(self):
-
+        """
+        将SKU主表中的MOQ列转换为整数类型, 缺失值填0。
+        """
         for supply_center, data in self._data_dict.items():
             sku_df = data[TableName.SKU_MAIN]
             # Convert MOQ to numeric, coerce invalid values to NaN, fill NaN with 0, and convert to int
@@ -207,6 +235,9 @@ class DataModifier:
 
     
     def _merge_current_inventory_into_sku_main(self):
+        """
+        将现有库存表与SKU主表合并, 补全库存信息, 缺失库存数据位置填0表示当前无库存。
+        """
         data_dict = self._data_dict
         for supply_center, data in data_dict.items():
             sku_df = data[TableName.SKU_MAIN]
@@ -222,6 +253,9 @@ class DataModifier:
 
 
     def _remove_unmatched_skus_in_po_df(self):
+        """
+        移除在途PO表中SKU不在SKU主表中的记录。
+        """
         data_dict = self._data_dict
 
         for supply_center, data in data_dict.items():
@@ -229,7 +263,6 @@ class DataModifier:
             sku_df = data[TableName.SKU_MAIN]
 
             matched_skus = po_df[IntransitPO.SKU].isin(sku_df[SKUMain.SKU])
-            # 过滤不在计划周期内到达的 PO 单
             filtered_po_df = po_df[matched_skus]
 
             data[TableName.INTRANSIT_PO] = filtered_po_df
@@ -237,6 +270,9 @@ class DataModifier:
 
 
     def _generate_arrival_week_quantity_to_PO_table(self):
+        """
+        为在途PO表添加到货周字段, 并过滤不在计划周期内的PO单。
+        """
         data_dict = self._data_dict
 
         for supply_center, data in data_dict.items():
@@ -252,6 +288,9 @@ class DataModifier:
 
 
     def _add_model_week_col_to_PO_table(self):
+        """
+        为在途PO表添加模型周字段(相对起始周的周序号, 从 1 开始)。
+        """
         data_dict = self._data_dict
 
         for supply_center, data in data_dict.items():
@@ -265,6 +304,9 @@ class DataModifier:
 
 
     def _add_capacity_occupied_week_to_PO_table(self):
+        """
+        为在途PO表添加产能占用模型周字段(到货模型周 - 运输SLA - 1)。
+        """
         data_dict = self._data_dict
 
         for supply_center, data in data_dict.items():
@@ -280,6 +322,9 @@ class DataModifier:
 
 
     def _filter_demand_out_of_time_span(self):
+        """
+        过滤SOP预测表中不在计划周期内的需求数据。
+        """
         data_dict = self._data_dict
 
         for supply_center, data in data_dict.items():
@@ -294,6 +339,9 @@ class DataModifier:
 
 
     def _update_required_inventory_level_to_sop_prediction_table(self):
+        """
+        根据安全库存周数, 计算每个SKU每周的需求和, 更新到REQUIRED_INVENTORY_LEVEL表。
+        """
         data_dict = self._data_dict
 
         for supply_center, data in data_dict.items():
@@ -327,13 +375,17 @@ class DataModifier:
 
 
     def _get_week_string(self, date):
-        # 获取 ISO 格式的年份和周数，并格式化为 "YYYYWN" 格式
+        """
+        将日期对象转换为"YYYYWN"格式的周字符串。
+        """
         year, week, _ = date.isocalendar()
         return f"{year}W{week}"
     
 
     def _week_to_date(self, week_str):
-        # 将 "YYYYWN" 格式转换为日期对象
+        """
+        将"YYYYWN"格式的周字符串转换为对应的日期对象。
+        """
         year = int(week_str[:4])
         week = int(week_str[5:])
         # 使用当年第一天的日期作为起点
@@ -345,9 +397,8 @@ class DataModifier:
 
     def _generate_week_schedule(self):
         """
-        Example:
-            start_week = '2025W50',
-            duration = ['2025W50', ..., '2026W23]
+        根据起始周和计划周期，生成计划周期内所有周的字符串列表。
+        例如: start_week = '2025W50', duration = ['2025W50', ..., '2026W23']
         """
         # 将起始周转换为日期
         start_date = self._week_to_date(self._start_week)
@@ -365,6 +416,9 @@ class DataModifier:
     
     
     def _generate_real_date_to_anker_week_mapping(self):
+        """
+        生成真实日期到anker周的映射表, 并存储到数据字典和对象属性中。
+        """
         anker_week_mapping = self._data_dict[TableName.ANKER_WEEK]
 
         anker_week_mapping[AnkerWeek.WEEK] = anker_week_mapping[AnkerWeek.ANKER_WEEK_MONTH_DAY].str.extract(r'(\d{4}W\d+)')
@@ -381,14 +435,7 @@ class DataModifier:
 
     def _map_date_to_anker_week(self, date):
         """
-        Convert target date to model date based on start date.
-        
-        Parameters:
-        target_date (pd.Series): Target date(s) in format 'YYYYWn'
-        start_date (str): Start date in format 'YYYYWn'
-        
-        Returns:
-        pd.Series: Model date(s) as integer(s), where start_date is model date 1
+        将目标日期映射到anker周字符串。
         """
         anker_week_mapping = self._anker_week_mapping
         for i in range(len(anker_week_mapping) - 1):
@@ -402,6 +449,9 @@ class DataModifier:
     
 
     def _map_anker_week_to_model_week(self, weeks: pd.Series):
+        """
+        将anker周字符串序列映射为模型周序号(起始周为1)。
+        """
         plan_start_year_week = self._start_week  # E.g.: "2025W1"
 
         assert isinstance(weeks, pd.Series)
@@ -419,13 +469,7 @@ class DataModifier:
     
     def _parse_week_string(self, week_str):
         """
-        Parse a week string like '2025W2' into year and week number.
-        
-        Parameters:
-        week_str (str): Week string in format 'YYYYWn'
-        
-        Returns:
-        tuple: (year, week) as integers
+        解析"YYYYWn"格式的周字符串，返回年份和周数的整数元组。
         """
         match = re.match(r'(\d{4})W(\d+)', week_str)
         if not match:

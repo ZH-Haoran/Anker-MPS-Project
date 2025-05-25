@@ -24,7 +24,12 @@ class ModelWriter:
 
 
     def _filter_zero_vars_out(self, file_name):
-
+        """
+        后处理求解结果：
+            1. 过滤掉值为0的变量
+            2. 过滤掉以是否下单指示变量 z 和是否满足需求指示变量 e
+            3. 对求解结果四舍五入(该步骤无论是否松弛决策变量都执行, 因为整数求解也可能出现小数)
+        """
         filtered_file_name = file_name.replace('.sol', '_filtered.sol')
         with open(file_name, 'r') as f_in, open(filtered_file_name, 'w') as f_out:
             # 保留第一行（目标值）

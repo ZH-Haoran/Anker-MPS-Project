@@ -6,26 +6,49 @@ import numpy as np
 
 class ModelParams:
     def __init__(self, data_dict, T):
+        """
+        初始化 ModelParams, 生成所有模型参数字典。
+        """
         _model_params_generator = ModelParamsGenerator(data_dict)
 
+        # 总计划周期
         self.T = T
+        # 供应中心集合
         self.supply_center_set = list(data_dict.keys())
+        # 供应中心对应的SKU集合
         self.sku_set = _model_params_generator.generate_sku_set()
+        # 供应中心对应的工厂集合
         self.factory_set = _model_params_generator.generate_factory_set()
+        # 供应中心对应的BG-SKU映射
         self.bg_to_sku_mapping_dict = _model_params_generator.generate_bg_to_sku_mapping_dict()
+        # 供应中心对应的SKU-可用工厂映射
         self.available_factory_set_of_skus = _model_params_generator.generate_available_factory_set_of_skus()
+        # 供应中心对应的工厂-可生产SKU映射
         self.factory_sku_lists_dict = _model_params_generator.generate_factory_sku_lists_dict()
+        # 供应中心对应的SLA_S字典
         self.SLA_S_dict = _model_params_generator.generate_SLA_S_dict()
+        # 供应中心对应的库存成本字典
         self.stock_cost_dict = _model_params_generator.generate_stock_cost_dict()
+        # 供应中心对应的缺货成本字典
         self.loss_sales_cost_dict = _model_params_generator.generate_loss_sales_cost_dict()
+        # 供应中心对应的最小下单量 MOQ 字典
         self.MOQ_dict = _model_params_generator.generate_MOQ_dict()
+        # 供应中心对应的运输SLA SLA_T 字典
         self.SLA_T_dict = _model_params_generator.generate_SLA_T_dict()
+        # 供应中心对应的初始库存字典
         self.initial_inventory_dict = _model_params_generator.generate_initial_inventory_dict()
+        # 供应中心对应的需求字典
         self.demand_dict = _model_params_generator.generate_demand_dict()
+        # 供应中心对应的目标库存水平字典
         self.required_inventory_level_dict = _model_params_generator.generate_required_inventory_level_dict()
-        self.isolated_factory_set = _model_params_generator.generate_isolated_sku_set()  # generate one-to-one skus-sp pairs dict{factory: list(skus)}
+        # 供应中心对应的PN-工厂存在一对一关系的工厂-SKU映射
+        # 原计划单独求解这部分的排产问题，但必要性有限，目前弃用
+        self.isolated_factory_set = _model_params_generator.generate_isolated_sku_set()
+        # 供应中心对应的标准产能和产能占用字典
         self.normalized_capacity_dict, self.capacity_occupancy_dict = _model_params_generator.generate_normalized_capacity_and_capacity_occupancy()
+        # 供应中心对应的PO单到达日期和数量字典
         self.week_arrival_quantity_from_PO = _model_params_generator.generate_week_arrival_quantity_from_PO(T, self.sku_set)
+        # 供应中心对应的在途PO单产能占用量字典
         self.po_capacity_occupation_dicts = _model_params_generator.generate_po_capacity_occupation(self.capacity_occupancy_dict, T)
 
 
@@ -35,6 +58,9 @@ class ModelParamsGenerator:
 
 
     def generate_sku_set(self):
+        """
+        生成每个供应中心下所有SKU的集合。
+        """
         data_dict = self._data_dict
 
         sku_set = {
@@ -46,6 +72,9 @@ class ModelParamsGenerator:
     
 
     def generate_factory_set(self):
+        """
+        生成每个供应中心下所有工厂的集合。
+        """
         data_dict = self._data_dict
 
         factory_set = {
@@ -57,6 +86,9 @@ class ModelParamsGenerator:
     
 
     def generate_available_factory_set_of_skus(self):
+        """
+        生成每个供应中心下每个SKU可用的工厂集合字典。
+        """
         data_dict = self._data_dict
 
         available_factory_set_of_skus = {}
@@ -86,10 +118,7 @@ class ModelParamsGenerator:
 
     def generate_factory_sku_lists_dict(self):
         """
-        Generate a dictionary mapping each factory to a list of SKUs it can produce.
-        
-        Returns:
-        - dict: Dictionary where keys are factory and values are lists of SKUs.
+        生成每个供应中心下每个工厂可生产的SKU列表字典。
         """
         data_dict = self._data_dict
         factory_sku_lists_dict = {}
@@ -134,6 +163,9 @@ class ModelParamsGenerator:
 
 
     def generate_bg_to_sku_mapping_dict(self) -> Dict:
+        """
+        生成每个供应中心下BG到SKU的映射字典。
+        """
         data_dict = self._data_dict
 
         bg_to_sku_mapping_dict = { supply_center: {
@@ -145,6 +177,9 @@ class ModelParamsGenerator:
     
 
     def generate_SLA_S_dict(self) -> Dict:
+        """
+        生成每个供应中心下SKU到SLA_S的映射字典。
+        """
         data_dict = self._data_dict
 
         sla_s_dict = {}
@@ -156,6 +191,9 @@ class ModelParamsGenerator:
     
 
     def generate_stock_cost_dict(self) -> Dict:
+        """
+        生成每个供应中心下SKU到库存成本的映射字典。
+        """
         data_dict = self._data_dict
 
         stock_cost_dict = {}
@@ -167,6 +205,9 @@ class ModelParamsGenerator:
     
 
     def generate_loss_sales_cost_dict(self) -> Dict:
+        """
+        生成每个供应中心下SKU到丢失销售成本的映射字典。
+        """
         data_dict = self._data_dict
 
         loss_sales_cost_dict = {}
@@ -178,6 +219,9 @@ class ModelParamsGenerator:
     
 
     def generate_MOQ_dict(self) -> Dict:
+        """
+        生成每个供应中心下SKU到MOQ的映射字典。
+        """
         data_dict = self._data_dict
 
         moq_dict = {}
@@ -189,6 +233,9 @@ class ModelParamsGenerator:
     
 
     def generate_SLA_T_dict(self) -> Dict:
+        """
+        生成每个供应中心下SKU到SLA_T的映射字典。
+        """
         data_dict = self._data_dict
 
         sla_t_dict = {}
@@ -200,6 +247,9 @@ class ModelParamsGenerator:
     
 
     def generate_initial_inventory_dict(self) -> Dict:
+        """
+        生成每个供应中心下SKU到初始库存的映射字典。
+        """
         data_dict = self._data_dict
 
         initial_inventory_dict = {}
@@ -213,6 +263,9 @@ class ModelParamsGenerator:
     
 
     def generate_demand_dict(self):
+        """
+        生成每个供应中心下SKU每周需求的字典。
+        """
         data_dict = self._data_dict
 
         demand_dicts = {}
@@ -232,6 +285,9 @@ class ModelParamsGenerator:
     
 
     def generate_required_inventory_level_dict(self) -> Dict:
+        """
+        生成每个供应中心下SKU每周目标库存字典。
+        """
         data_dict = self._data_dict
 
         required_inventory_level_dict = {}
@@ -250,7 +306,11 @@ class ModelParamsGenerator:
         return required_inventory_level_dict
 
     
+    # NOTE: 可能弃用
     def generate_isolated_sku_set(self):
+        """
+        生成每个供应中心下工厂与一对一SKU的映射字典(只与一个PN一一对应的工厂)。
+        """
         data_dict = self._data_dict
 
         isolated_factory_set = {}
@@ -286,7 +346,6 @@ class ModelParamsGenerator:
                         # factory_in_one_to_one_pairs.append(f)
                         factory_in_one_to_one_pairs[f] = [sku for sku in pn_to_sku_dict[pn] if pn in pn_to_sku_dict]
 
-            # isolated_sku_set[supply_center] = sku_in_one_to_one_pairs
             isolated_factory_set[supply_center] = factory_in_one_to_one_pairs
 
         return isolated_factory_set
@@ -294,15 +353,7 @@ class ModelParamsGenerator:
 
     def generate_normalized_capacity_and_capacity_occupancy(self):
         """
-        Calculate factory standard capacity and unit capacity usage from capacity DataFrame.
-        
-        Parameters:
-        capacity_df (pd.DataFrame): DataFrame with capacity data, columns include factories, SKUs, weeks, and capacities
-        
-        Returns:
-        tuple: (dict, dict)
-            - Factory standard capacity: {factory: list of capacities for each week}
-            - Unit capacity usage: {factory: {sku: list of usage for each week}}
+        计算每个供应中心下工厂的标准产能和单位产能占用(标准产能/PN产能)。
         """
         # Retrieve data dictionary
         data_dict = self._data_dict
@@ -377,11 +428,7 @@ class ModelParamsGenerator:
 
     def generate_week_arrival_quantity_from_PO(self, T, sku_set):
         """
-        Generate a dictionary from arrival DataFrame where key is SKU and value is a list of arrival quantities
-        for each model week. If no arrival for a model week, set quantity to 0.
-        
-        Returns:
-        dict: Dictionary with SKU as key and list of arrival quantities (length T) as value
+        生成每个供应中心下SKU每周到货量的字典, key为SKU, value为长度为T的到货量列表。
         """
         data_dict = self._data_dict
 
@@ -419,12 +466,9 @@ class ModelParamsGenerator:
 
     def generate_po_capacity_occupation(self, unit_capacity: Dict[str, List[float]], T: int) -> Dict[str, List[float]]:
         """
-        生成在途PO订单对产能占用量的字典。
-            
-        Returns:
-            Dict[str, List[float]]，格式为 {factory: [产能占用 for t in range(T)]}
+        生成每个供应中心下在途PO订单对产能占用量的字典。
+        返回格式为 {supply_center: {factory: [产能占用 for t in range(T)]}}
         """
-
         data_dict = self._data_dict
 
         po_capacity_occupation_dicts = {}

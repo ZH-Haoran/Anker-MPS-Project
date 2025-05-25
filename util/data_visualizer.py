@@ -22,7 +22,9 @@ class DataVisualizer:
     
     
     def _parse_sol_file(self) -> Dict:
-        
+        """
+        解析求解器输出的.sol文件，提取下单量、库存、未满足需求数量和未满足目标库存数量数据
+        """
         sol_data = {
             'orders': {},
             'inventory': {},

@@ -67,3 +67,4 @@ main.py 中有一些自定义的运行参数：
 1. 目前与产品下市有关的数据预处理逻辑和模型约束实现（对应报告中 `Sec. 2.2.1 停产约束` 段）由于数据缺失还未被整合入代码中。
 2. 运输 SLA 数据目前缺失，在 data_processor.data_modifier 的 DataModifier 类中我们暂时填补了一列 1 作为运输 SLA，后续可能需按需修改。
 3. 目前未完善将求解结果写入 excel 或数据库中的流程，但大致流程可以参考 DataVisualizer 类的 `_parse_sol_file()` 函数。后续具体以什么格式输出待确定。
+4. 我们将当前环境下的所有包都导出到了 `requiments.txt` 中，如果配置环境出现问题，可以只安装 `numpy` , `pandas` , `matplotlib` 和 `coptpy` ，其他包应当均为这些必要包的依赖。

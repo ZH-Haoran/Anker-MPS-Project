@@ -17,9 +17,9 @@ git clone https://github.com/ZH-Haoran/Anker-MPS-Project.git
 pip install -r requirements.txt
 ```
 
-### 运行 MPS 模型：  
+## 运行 MPS 模型：  
 
-#### 数据准备：  
+### 数据准备：  
 MPS 模型需要以下七个 excel 文件作为模型输入：
 1. 安克周.xlsx
 2. 工厂产能数据.xlsx
@@ -31,7 +31,7 @@ MPS 模型需要以下七个 excel 文件作为模型输入：
 
 表格结构参考脱敏数据样例。数据应当被放入 `/MPS_model/data/raw/` 文件夹下。
 
-#### 模型求解
+### 模型求解
 代码目前使用 COPT 求解器进行求解，需要提前配置 COPT 的 license，具体可以参照 [COPT 官网](https://www.shanshu.ai/copt)。
 配置完毕后，进入到 MPS_model 文件夹下，运行 `main.py` 文件即可。  
 main.py 中有一些自定义的运行参数：  
@@ -42,7 +42,7 @@ main.py 中有一些自定义的运行参数：
 
 由于代码会输出记录了所有模型信息的 `.mps` 文件，因此也可以使用该文件在 [COAP](https://www.coap.online) (Center of Optimization Algorithm Patform) 求解问题，求解效率会有所提升。
 
-## MPS 模型代码结构
+### MPS 模型代码结构
 * `/MPS_model/data/` 
   * `raw/` : 存放原始数据文件
   * `modified/` : 存放经过 DataModifier 编辑的表格，在模型数据预处理阶段被创建
@@ -63,8 +63,92 @@ main.py 中有一些自定义的运行参数：
 * `/MPS_model/visualization/` : 存放模型库存曲线的可视化结果
 * `/MPS_model/main.py` : 模型主函数
 
-## MPS 模型备注
+### MPS 模型备注
 1. 目前与产品下市有关的数据预处理逻辑和模型约束实现（对应报告中 `Sec. 2.2.1 停产约束` 段）由于数据缺失还未被整合入代码中。
 2. 运输 SLA 数据目前缺失，在 data_processor.data_modifier 的 DataModifier 类中我们暂时填补了一列 1 作为运输 SLA，后续可能需按需修改。
 3. 目前未完善将求解结果写入 excel 或数据库中的流程，但大致流程可以参考 DataVisualizer 类的 `_parse_sol_file()` 函数。后续具体以什么格式输出待确定。
 4. 我们将当前环境下的所有包都导出到了 `requiments.txt` 中，如果配置环境出现问题，可以只安装 `numpy` , `pandas` , `matplotlib` 和 `coptpy` ，其他包应当均为这些必要包的依赖。
+
+
+
+
+## 运行 DA 模型：
+
+### 数据准备：  
+DA 模型需要以下四个 excel 文件作为模型输入：
+1. 库存可用量快照导出.xlsx
+2. 履行订单快照导出.xlsx
+3. 在途PO工单快照导出.xlsx
+4. 区域订单上限快照.xlsx
+
+表格结构参考脱敏数据样例。数据应当被放入 /DA_model/raw_data/ 文件夹下。\
+备注：由于数据缺失，我们手工生成了`区域订单上线快照.xlsx`， 每个SKU的区域上限都被设置为100000。
+
+
+### 模型求解
+模型求解
+代码目前使用 COPT 求解器进行求解，需要提前配置 COPT 的 license，具体可以参照 COPT 官网。
+配置完毕后，进入到 DA_model/ 文件夹下，在终端运行 main.py 文件即可。\
+
+#### 具体命令如下（以macOS Terminal为例）：
+```
+cd Anker-MPS-Project/DA_model
+python3 main.py --data raw_data --output results --log-level INFO
+```
+其中 raw_data 为数据文件夹路径，results 为输出文件夹路径，log-level 为日志级别，可选 DEBUG、INFO、WARNING、ERROR。
+
+
+### DA 模型代码结构
+```
+DA_model/
+├── setup.py
+├── main.py
+├── config/
+│   ├── .gitkeep
+│   └── settings.py
+├── data_processor/
+│   ├── .gitkeep
+│   ├── loader.py
+│   ├── cleaner.py
+│   └── processor.py
+├── raw_data/
+│   ├── 区域订单上限快照.xlsx
+│   ├── 库存可用量快照导出.xlsx
+│   ├── 履行订单快照导出.xlsx
+│   └── 在途PO工单快照导出.xlsx
+├── results/
+│   ├── .gitkeep
+│   ├── optimization.log
+│   ├── optimization_results.txt
+│   └── optimization_results.xlsx
+├── models/
+│   ├── .gitkeep
+│   └── DA_model.py
+├── utils/
+│   ├── .gitkeep
+├── └── helpers.py
+└── _raw_code/
+```
+
+* `/DA_model/raw_data/` 
+  * 存放原始数据文件:
+  * `区域订单上限快照.xlsx` 
+  * `库存可用量快照导出.xlsx` 
+  * `履行订单快照导出.xlsx` 
+  * `在途PO工单快照导出.xlsx` 
+* `/DA_model/config/` 
+  * `settings.py` : 配置文件，包括所需数据表名、列名、参数名等
+* `/DA_model/data_processor/`
+  * `loader.py` : 从原始数据表格中加载所需要的数据，传递给模型
+  * `cleaner.py` : 对传递数据进行数据清洗，从中计算模型所需的参数
+  * `processor.py` : 将清洗后参数根据SKU进行分类打包（降低模型维度）
+* `/DA_model/models/`
+  * `DA_model.py` : 封装求解DA模型的主要流程，包括添加变量、添加约束和求解模型等
+* `/DA_model/util/`
+  * `helpers.py` : 辅助函数，如日志记录、生成优化报告、结果核实、结果excel储存等
+* `/DA_model/results/` : 存放模型运行的日志文件和结果文件
+* `/DA_model/main.py` : 模型主函数
+* `/DA_model/_raw_code/` : 原始未经处理的代码版本
+
+
+### DA 模型备注

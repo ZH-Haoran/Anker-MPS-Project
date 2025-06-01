@@ -103,10 +103,10 @@ DA_model/
 ├── setup.py
 ├── main.py
 ├── config/
-│   ├── .gitkeep
+│   ├── __init__.py
 │   └── settings.py
 ├── data_processor/
-│   ├── .gitkeep
+│   ├── __init__.py
 │   ├── loader.py
 │   ├── cleaner.py
 │   └── processor.py
@@ -121,10 +121,10 @@ DA_model/
 │   ├── optimization_results.txt
 │   └── optimization_results.xlsx
 ├── models/
-│   ├── .gitkeep
+│   ├── __init__.py
 │   └── DA_model.py
 ├── utils/
-│   ├── .gitkeep
+│   ├── __init__.py
 ├── └── helpers.py
 └── _raw_code/
 ```

@@ -1,0 +1,566 @@
+
+=== DELIVERY OPTIMIZATION REPORT ===
+Generated: 2025-06-02 00:42:58
+
+SUMMARY STATISTICS:
+- Total SKUs processed: 120
+- Successful optimizations: 120
+- Failed optimizations: 0
+- Success rate: 100.0%
+
+PERFORMANCE METRICS:
+- Total weighted delay cost: 7195980.00
+- Orders with EPD delays: 147
+- Orders with RPD delays: 400
+- Unique delayed orders: 400
+- Total execution time: 15.20 seconds
+
+DETAILED RESULTS BY SKU:
+--------------------------------------------------
+SKU: SKU1712
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU2839
+  Status: ✓ Optimal
+  Objective Value: 73692.00
+  Delayed Orders: 0 EPD, 7 RPD
+
+SKU: SKU917
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU2152
+  Status: ✓ Optimal
+  Objective Value: 140580.00
+  Delayed Orders: 2 EPD, 2 RPD
+
+SKU: SKU3382
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU3169
+  Status: ✓ Optimal
+  Objective Value: 195990.00
+  Delayed Orders: 0 EPD, 58 RPD
+
+SKU: SKU2381
+  Status: ✓ Optimal
+  Objective Value: 109374.00
+  Delayed Orders: 10 EPD, 11 RPD
+
+SKU: SKU312
+  Status: ✓ Optimal
+  Objective Value: 833910.00
+  Delayed Orders: 8 EPD, 8 RPD
+
+SKU: SKU3302
+  Status: ✓ Optimal
+  Objective Value: 12672.00
+  Delayed Orders: 2 EPD, 2 RPD
+
+SKU: SKU927
+  Status: ✓ Optimal
+  Objective Value: 370344.00
+  Delayed Orders: 16 EPD, 43 RPD
+
+SKU: SKU973
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU674
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU341
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU1491
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU2800
+  Status: ✓ Optimal
+  Objective Value: 48.00
+  Delayed Orders: 0 EPD, 1 RPD
+
+SKU: SKU1351
+  Status: ✓ Optimal
+  Objective Value: 227040.00
+  Delayed Orders: 2 EPD, 2 RPD
+
+SKU: SKU3043
+  Status: ✓ Optimal
+  Objective Value: 5718.00
+  Delayed Orders: 1 EPD, 3 RPD
+
+SKU: SKU2266
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU1171
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU220
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU291
+  Status: ✓ Optimal
+  Objective Value: 2714.00
+  Delayed Orders: 1 EPD, 1 RPD
+
+SKU: SKU44
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU1071
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU1660
+  Status: ✓ Optimal
+  Objective Value: 15820.00
+  Delayed Orders: 1 EPD, 5 RPD
+
+SKU: SKU2489
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU409
+  Status: ✓ Optimal
+  Objective Value: 3630.00
+  Delayed Orders: 1 EPD, 1 RPD
+
+SKU: SKU3052
+  Status: ✓ Optimal
+  Objective Value: 17811.00
+  Delayed Orders: 5 EPD, 6 RPD
+
+SKU: SKU1190
+  Status: ✓ Optimal
+  Objective Value: 11130.00
+  Delayed Orders: 2 EPD, 2 RPD
+
+SKU: SKU2556
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU448
+  Status: ✓ Optimal
+  Objective Value: 48199.00
+  Delayed Orders: 2 EPD, 16 RPD
+
+SKU: SKU577
+  Status: ✓ Optimal
+  Objective Value: 165.00
+  Delayed Orders: 1 EPD, 1 RPD
+
+SKU: SKU84
+  Status: ✓ Optimal
+  Objective Value: 40550.00
+  Delayed Orders: 0 EPD, 4 RPD
+
+SKU: SKU91
+  Status: ✓ Optimal
+  Objective Value: 1105015.00
+  Delayed Orders: 16 EPD, 16 RPD
+
+SKU: SKU2737
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU1636
+  Status: ✓ Optimal
+  Objective Value: 514812.00
+  Delayed Orders: 4 EPD, 4 RPD
+
+SKU: SKU2452
+  Status: ✓ Optimal
+  Objective Value: 844.00
+  Delayed Orders: 1 EPD, 3 RPD
+
+SKU: SKU1517
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU358
+  Status: ✓ Optimal
+  Objective Value: 6024.00
+  Delayed Orders: 2 EPD, 16 RPD
+
+SKU: SKU1832
+  Status: ✓ Optimal
+  Objective Value: 2574.00
+  Delayed Orders: 2 EPD, 2 RPD
+
+SKU: SKU635
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU1314
+  Status: ✓ Optimal
+  Objective Value: 802.00
+  Delayed Orders: 0 EPD, 2 RPD
+
+SKU: SKU725
+  Status: ✓ Optimal
+  Objective Value: 23648.00
+  Delayed Orders: 2 EPD, 10 RPD
+
+SKU: SKU1213
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU2361
+  Status: ✓ Optimal
+  Objective Value: 394395.00
+  Delayed Orders: 15 EPD, 51 RPD
+
+SKU: SKU755
+  Status: ✓ Optimal
+  Objective Value: 295550.00
+  Delayed Orders: 10 EPD, 10 RPD
+
+SKU: SKU683
+  Status: ✓ Optimal
+  Objective Value: 888.00
+  Delayed Orders: 0 EPD, 1 RPD
+
+SKU: SKU2595
+  Status: ✓ Optimal
+  Objective Value: 264.00
+  Delayed Orders: 1 EPD, 1 RPD
+
+SKU: SKU2742
+  Status: ✓ Optimal
+  Objective Value: 3084.00
+  Delayed Orders: 3 EPD, 3 RPD
+
+SKU: SKU886
+  Status: ✓ Optimal
+  Objective Value: 120.00
+  Delayed Orders: 0 EPD, 1 RPD
+
+SKU: SKU323
+  Status: ✓ Optimal
+  Objective Value: 747270.00
+  Delayed Orders: 5 EPD, 7 RPD
+
+SKU: SKU2237
+  Status: ✓ Optimal
+  Objective Value: 22281.00
+  Delayed Orders: 1 EPD, 4 RPD
+
+SKU: SKU77
+  Status: ✓ Optimal
+  Objective Value: 9400.00
+  Delayed Orders: 0 EPD, 2 RPD
+
+SKU: SKU2250
+  Status: ✓ Optimal
+  Objective Value: 4400.00
+  Delayed Orders: 1 EPD, 1 RPD
+
+SKU: SKU1907
+  Status: ✓ Optimal
+  Objective Value: 29260.00
+  Delayed Orders: 2 EPD, 2 RPD
+
+SKU: SKU515
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU1847
+  Status: ✓ Optimal
+  Objective Value: 10860.00
+  Delayed Orders: 0 EPD, 1 RPD
+
+SKU: SKU1032
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU3106
+  Status: ✓ Optimal
+  Objective Value: 42420.00
+  Delayed Orders: 10 EPD, 10 RPD
+
+SKU: SKU3198
+  Status: ✓ Optimal
+  Objective Value: 44700.00
+  Delayed Orders: 0 EPD, 13 RPD
+
+SKU: SKU2098
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU304
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU2898
+  Status: ✓ Optimal
+  Objective Value: 1848.00
+  Delayed Orders: 1 EPD, 1 RPD
+
+SKU: SKU1428
+  Status: ✓ Optimal
+  Objective Value: 408600.00
+  Delayed Orders: 1 EPD, 2 RPD
+
+SKU: SKU2129
+  Status: ✓ Optimal
+  Objective Value: 6800.00
+  Delayed Orders: 0 EPD, 3 RPD
+
+SKU: SKU2566
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU687
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU276
+  Status: ✓ Optimal
+  Objective Value: 3280.00
+  Delayed Orders: 0 EPD, 2 RPD
+
+SKU: SKU2591
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU2283
+  Status: ✓ Optimal
+  Objective Value: 1800.00
+  Delayed Orders: 1 EPD, 1 RPD
+
+SKU: SKU1653
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU1297
+  Status: ✓ Optimal
+  Objective Value: 39780.00
+  Delayed Orders: 0 EPD, 5 RPD
+
+SKU: SKU1109
+  Status: ✓ Optimal
+  Objective Value: 1820.00
+  Delayed Orders: 0 EPD, 8 RPD
+
+SKU: SKU2672
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU2301
+  Status: ✓ Optimal
+  Objective Value: 16400.00
+  Delayed Orders: 0 EPD, 4 RPD
+
+SKU: SKU2717
+  Status: ✓ Optimal
+  Objective Value: 8244.00
+  Delayed Orders: 0 EPD, 4 RPD
+
+SKU: SKU2809
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU1641
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU817
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU678
+  Status: ✓ Optimal
+  Objective Value: 34560.00
+  Delayed Orders: 1 EPD, 1 RPD
+
+SKU: SKU2179
+  Status: ✓ Optimal
+  Objective Value: 36768.00
+  Delayed Orders: 1 EPD, 2 RPD
+
+SKU: SKU60
+  Status: ✓ Optimal
+  Objective Value: 430980.00
+  Delayed Orders: 1 EPD, 1 RPD
+
+SKU: SKU995
+  Status: ✓ Optimal
+  Objective Value: 51000.00
+  Delayed Orders: 1 EPD, 1 RPD
+
+SKU: SKU67
+  Status: ✓ Optimal
+  Objective Value: 309510.00
+  Delayed Orders: 2 EPD, 4 RPD
+
+SKU: SKU3175
+  Status: ✓ Optimal
+  Objective Value: 6000.00
+  Delayed Orders: 0 EPD, 2 RPD
+
+SKU: SKU3194
+  Status: ✓ Optimal
+  Objective Value: 422040.00
+  Delayed Orders: 1 EPD, 2 RPD
+
+SKU: SKU2242
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU1519
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU3358
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU946
+  Status: ✓ Optimal
+  Objective Value: 32.00
+  Delayed Orders: 0 EPD, 1 RPD
+
+SKU: SKU1422
+  Status: ✓ Optimal
+  Objective Value: 225.00
+  Delayed Orders: 1 EPD, 3 RPD
+
+SKU: SKU2221
+  Status: ✓ Optimal
+  Objective Value: 3000.00
+  Delayed Orders: 0 EPD, 1 RPD
+
+SKU: SKU2686
+  Status: ✓ Optimal
+  Objective Value: 315.00
+  Delayed Orders: 1 EPD, 1 RPD
+
+SKU: SKU520
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU424
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU2223
+  Status: ✓ Optimal
+  Objective Value: 3000.00
+  Delayed Orders: 0 EPD, 1 RPD
+
+SKU: SKU2232
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU453
+  Status: ✓ Optimal
+  Objective Value: 19200.00
+  Delayed Orders: 0 EPD, 8 RPD
+
+SKU: SKU2756
+  Status: ✓ Optimal
+  Objective Value: 2220.00
+  Delayed Orders: 3 EPD, 3 RPD
+
+SKU: SKU3218
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU437
+  Status: ✓ Optimal
+  Objective Value: 7000.00
+  Delayed Orders: 0 EPD, 2 RPD
+
+SKU: SKU3220
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU1177
+  Status: ✓ Optimal
+  Objective Value: 7260.00
+  Delayed Orders: 1 EPD, 1 RPD
+
+SKU: SKU2572
+  Status: ✓ Optimal
+  Objective Value: 3000.00
+  Delayed Orders: 0 EPD, 1 RPD
+
+SKU: SKU1926
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU1527
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU2352
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU695
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU1196
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU1402
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU1088
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU777
+  Status: ✓ Optimal
+  Objective Value: 3300.00
+  Delayed Orders: 2 EPD, 2 RPD
+
+SKU: SKU396
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU163
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU3129
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU2056
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU3063
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU910
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU214
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU2902
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+SKU: SKU827
+  Status: ✓ Optimal
+  Objective Value: 0.00
+
+========================================

@@ -86,7 +86,6 @@ DA 模型需要以下四个 excel 文件作为模型输入：
 
 
 ### 模型求解
-模型求解
 代码目前使用 COPT 求解器进行求解，需要提前配置 COPT 的 license，具体可以参照 COPT 官网。
 配置完毕后，进入到 DA_model/ 文件夹下，在终端运行 main.py 文件即可。\
 
@@ -104,10 +103,10 @@ DA_model/
 ├── setup.py
 ├── main.py
 ├── config/
-│   ├── .gitkeep
+│   ├── .__init__.py
 │   └── settings.py
 ├── data_processor/
-│   ├── .gitkeep
+│   ├── __init__.py
 │   ├── loader.py
 │   ├── cleaner.py
 │   └── processor.py
@@ -117,15 +116,15 @@ DA_model/
 │   ├── 履行订单快照导出.xlsx
 │   └── 在途PO工单快照导出.xlsx
 ├── results/
-│   ├── .gitkeep
+│   ├── __init__.py
 │   ├── optimization.log
 │   ├── optimization_results.txt
 │   └── optimization_results.xlsx
 ├── models/
-│   ├── .gitkeep
+│   ├── __init__.py
 │   └── DA_model.py
 ├── utils/
-│   ├── .gitkeep
+│   ├── __init__.py
 ├── └── helpers.py
 └── _raw_code/
 ```

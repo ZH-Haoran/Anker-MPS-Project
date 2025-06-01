@@ -87,7 +87,7 @@ DA 模型需要以下四个 excel 文件作为模型输入：
 
 ### 模型求解
 代码目前使用 COPT 求解器进行求解，需要提前配置 COPT 的 license，具体可以参照 COPT 官网。
-配置完毕后，进入到 DA_model/ 文件夹下，在终端运行 main.py 文件即可。\
+配置完毕后，进入到 DA_model/ 文件夹下，在终端运行 main.py 文件即可。
 
 #### 具体命令如下（以macOS Terminal为例）：
 ```

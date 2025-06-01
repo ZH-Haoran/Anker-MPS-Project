@@ -151,3 +151,6 @@ DA_model/
 
 
 ### DA 模型备注
+1. 由于数据缺失，我们手工生成了`区域订单上线快照.xlsx`， 每个SKU的区域上限都被设置为100000。
+2. 模型输出结果为txt或excel文档，`optimization_results.xlsx` 中包含了每个SKU的分配结果，
+其中sheet1为Summary，记录了所有SKU的分配结果汇总，sheet2-sheetN为每个SKU的分配结果，包括分配的数量、分配的订单ID、分配的PO ID等。
